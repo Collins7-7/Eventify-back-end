@@ -6,7 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self 
 
-
+has_many :bookings
+has_many :events, through: :bookings
 def jwt_payload
     super
 end 
