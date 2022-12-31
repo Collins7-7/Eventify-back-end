@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 
   post 'stkpush', to: 'mpesas#stkpush'
   post 'stkquery', to: 'mpesas#stkquery'
+  resources :categories
 end
