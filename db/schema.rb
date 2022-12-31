@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_153401) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_31_162857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,43 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_153401) do
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer "no_of_tickets"
+    t.float "amount_paid"
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_bookings_on_event_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "image_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.string "image_url"
+    t.text "description"
+    t.string "location"
+    t.date "start_date"
+    t.date "end_date"
+    t.string "start_time"
+    t.string "end_time"
+    t.integer "total_tickets"
+    t.integer "remaining_tickets"
+    t.integer "amount"
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_events_on_category_id"
   end
 
   create_table "mpesas", force: :cascade do |t|
@@ -44,4 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_153401) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookings", "events"
+  add_foreign_key "bookings", "users"
+  add_foreign_key "events", "categories"
 end
