@@ -1,4 +1,6 @@
-Category.destroy_all
+# Category.destroy_all
+# Event.destroy_all
+# Booking.destroy_all
 puts "Seeding Category"
 
 Category.create(name: "Business", description: "Discover tips and best practices to scale up your business.", image_url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1415&q=80")
@@ -11,9 +13,8 @@ Category.create(name: "Community", description: "Get support and gain the accoun
 puts "Done seeding"
 
 puts "Seeding Events"
-Event.destroy_all
 
-events = Event.create([
+Event.create([
     {
         name: "Forbes Today",
         description: "Some random words about being rich and all",
@@ -28,7 +29,8 @@ events = Event.create([
     amount: 1000,
     category_id:1
 
-    },{
+    },
+    {
         name: "Hackathon",
         description: "Some random words about tech and all",
         image_url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
@@ -98,7 +100,6 @@ events = Event.create([
 ])
 
 puts "Done seeding events"
-Booking.destroy_all
 
 bookings = Booking.create([
     {

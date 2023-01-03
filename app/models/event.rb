@@ -1,11 +1,11 @@
 class Event < ApplicationRecord
   belongs_to :category
-  has_many :bookings
+  has_many :bookings, dependent: :destroy
   has_many :users, through: :bookings
 
   validates :name, :description, presence: true
   validates :start_date, :end_date, :start_time, :end_time, presence: true 
-  validates :total_tickets, :price, presence: true, numericality: true
+  validates :total_tickets, :amount, presence: true, numericality: true
   validates :end_date, comparison: { greater_than: :start_date,
   message: "Can't be before start date" }
 

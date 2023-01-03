@@ -8,7 +8,17 @@ class User < ApplicationRecord
 
 has_many :bookings
 has_many :events, through: :bookings
+
+ROLES = %w{admin client}
+
 def jwt_payload
     super
 end 
+
+ROLES.each do |role_name|
+  define_method "#{role_name}?" do
+    role == role_name
+  end
+end
+
 end
