@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
 
+    load_and_authorize_resource
     before_action :authenticate_user!
     before_action :set_booking, only: [:show, :update, :destroy]
 
@@ -10,7 +11,7 @@ rescue_from CanCan::AccessDenied do |exception|
 end
 
     def index
-        @bookings = Booking.all
+        @bookings = Booking.accessible_by(current_ability)
         # @bookings = current_user.bookings
         render json: @bookings, status: :ok
     end
@@ -19,9 +20,25 @@ end
         render json: @booking, status: :ok
     end
 
+    # def create
+    #     @booking = current_user.bookings.create!(booking_params)
+    #     render json: @booking, status: :created
+    # end
+
     def create
-        @booking = current_user.bookings.create!(booking_params)
-        render json: @booking, status: :created
+        event = Event.find(params[:event_id])
+
+        amount_to_pay = params[:no_of_tickets].to_i * event.amount
+
+        booking = event.bookings.create(
+            user_id: current_user.id,
+            no_of_tickets: params[:no_of_tickets].to_i,
+            amount_paid: amount_to_pay
+        )
+        
+        # BookingsMailer.booking_confirmation(booking).deliver_now
+
+        redirect_to event_path(event), notice: 'Your ticket has been booked'
     end
 
     def update
