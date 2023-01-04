@@ -11,7 +11,7 @@ rescue_from CanCan::AccessDenied do |exception|
 end
 
     def index
-        @bookings = Booking.all
+        @bookings = Booking.accessible_by(current_ability)
         # @bookings = current_user.bookings
         render json: @bookings, status: :ok
     end
